@@ -9,6 +9,7 @@ const config = {
     resolve(),
     babel()
   ],
+  moduleName: 'Layzr',
   targets: [
     {
       dest: info.main,

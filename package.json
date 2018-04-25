@@ -1,41 +1,38 @@
 {
-  "name":        "layzr.js",
-  "description": "A modern lazy loading library for images.",
-
-  "main":        "dist/layzr.js",
-  "module":      "dist/layzr.module.js",
-  "jsnext:main": "dist/layzr.module.js",
-
-  "version": "2.2.2",
-  "license": "MIT",
-
-  "repository": "callmecavs/layzr.js",
-
-  "author": {
-    "name":  "Michael Cavalea",
-    "email": "callmecavs@gmail.com",
-    "url":   "http://callmecavs.com/"
+  "_from": "git+https://github.com/orcwarrior/layzr.js.git",
+  "_id": "layzr.js@2.2.2",
+  "_inBundle": false,
+  "_location": "/layzr.js",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/orcwarrior/layzr.js.git",
+    "rawSpec": "https://github.com/orcwarrior/layzr.js.git",
+    "saveSpec": "git+https://github.com/orcwarrior/layzr.js.git",
+    "fetchSpec": "https://github.com/orcwarrior/layzr.js.git",
+    "gitCommittish": null
   },
-
-  "scripts": {
-    "prebuild":   "eslint src",
-    "build":      "rollup -c",
-    "dev":        "rollup -c -w -m inline",
-    "prepublish": "npm run build",
-    "server":     "python -m SimpleHTTPServer 3000"
-  },
-
-  "keywords": [
-    "images",
-    "lazy",
-    "load",
-    "scroll"
+  "_requiredBy": [
+    "#USER",
+    "/"
   ],
-
+  "_resolved": "git+https://github.com/orcwarrior/layzr.js.git#0b92031c68022d222c5e5de75a04f4cac19382dd",
+  "_spec": "https://github.com/orcwarrior/layzr.js.git",
+  "_where": "C:\\wamp64\\www\\news-wh\\wp-content\\themes\\news-wh\\webpack",
+  "author": {
+    "name": "Michael Cavalea",
+    "email": "callmecavs@gmail.com",
+    "url": "http://callmecavs.com/"
+  },
+  "bugs": {
+    "url": "https://github.com/callmecavs/layzr.js/issues"
+  },
+  "bundleDependencies": false,
   "dependencies": {
     "knot.js": "^1.1.5"
   },
-
+  "deprecated": false,
+  "description": "A modern lazy loading library for images.",
   "devDependencies": {
     "babel-eslint": "^7.1.1",
     "babel-plugin-external-helpers": "^6.18.0",
@@ -49,5 +46,29 @@
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-node-resolve": "^2.0.0",
     "rollup-watch": "^3.2.2"
-  }
+  },
+  "homepage": "https://github.com/callmecavs/layzr.js#readme",
+  "jsnext:main": "dist/layzr.module.js",
+  "keywords": [
+    "images",
+    "lazy",
+    "load",
+    "scroll"
+  ],
+  "license": "MIT",
+  "main": "dist/layzr.js",
+  "module": "dist/layzr.module.js",
+  "name": "layzr.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/callmecavs/layzr.js.git"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w -m inline",
+    "prebuild": "eslint src",
+    "prepublish": "npm run build",
+    "server": "python -m SimpleHTTPServer 3000"
+  },
+  "version": "2.2.2"
 }
