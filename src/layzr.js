@@ -79,9 +79,12 @@ export default (options = {}) => {
         return (nodeBot >= viewTop - offset) && (nodeTop <= viewBot + offset)
     }
 
-    function pickOptimalResponsive(srcsetStr) {
+    function pickOptimalResponsive(node) {
+        const srcsetStr = node.getAttribute(settings.srcset);
+        const nodeWidth = node.offsetWidth;
         const srcset = parseSrcset(srcsetStr);
-        return srcset[0].src; // TMP: Pick first srcset
+        const optimalSrc = srcset.find((src) => src.width > nodeWidth);
+        return optimalSrc.src; // TMP: Pick first srcset
 
         function parseSrcset(srcsetStr) {
             return srcsetStr.split(', ')
@@ -101,18 +104,22 @@ export default (options = {}) => {
 
         // prefer srcset, fallback to pixel density
         if (srcset && node.hasAttribute(settings.srcset)) {
-            node.setAttribute('srcset', node.getAttribute(settings.srcset))
-            if (attrBg) {
-                const optimalSrc = pickOptimalResponsive(srcset);
-                node.style.setProperty('backgroundImage', `url('${optimalSrc}')`)
+            node.setAttribute('srcset', node.getAttribute(settings.srcset));
+            if (attrBg || attrBg === "") {
+                const optimalSrc = pickOptimalResponsive(node);
+                node.style.backgroundImage = 'url("'+optimalSrc+'")';
+                console.log(`src for: ${node.classList} => ${optimalSrc} / ${node.style.backgroundImage}`);
             }
         } else {
             const normal = node.getAttribute(settings.normal)
             const retina = dpr > 1 && node.getAttribute(settings.retina)
+            console.log(`[no-srcset]Picking bg src for: ${node.classList}`);
             if (normal)
                 node.setAttribute('src', retina || normal)
             if (attrBg) {
-                node.style.setProperty('backgroundImage', `url('${retina || bg || normal}')`)
+                // node.style.backgroundImage = `url("${retina || bg || normal}")`;
+                node.style.backgroundImage = `url(${(retina || attrBg || normal)})`;
+                console.log(`src for: ${node.classList} =>  ${node.style.backgroundImage}`);
             }
         }
 
@@ -144,7 +151,8 @@ export default (options = {}) => {
     }
 
     function update() {
-        nodes = Array.prototype.slice.call(document.querySelectorAll(`[${settings.normal}]`))
+        nodes = Array.prototype.slice.call(document.querySelectorAll(`[${settings.normal}], [${settings.bg}]`))
+        console.log(`update with ${nodes.length} nodes`)
         return this
     }
 }

@@ -150,9 +150,14 @@ var layzr = (function () {
         return nodeBot >= viewTop - offset && nodeTop <= viewBot + offset;
     }
 
-    function pickOptimalResponsive(srcsetStr) {
+    function pickOptimalResponsive(node) {
+        var srcsetStr = node.getAttribute(settings.srcset);
+        var nodeWidth = node.offsetWidth;
         var srcset = parseSrcset(srcsetStr);
-        return srcset[0].src; // TMP: Pick first srcset
+        var optimalSrc = srcset.find(function (src) {
+            return src.width > nodeWidth;
+        });
+        return optimalSrc.src; // TMP: Pick first srcset
 
         function parseSrcset(srcsetStr) {
             return srcsetStr.split(', ').map(function (s) {
@@ -173,16 +178,22 @@ var layzr = (function () {
         // prefer srcset, fallback to pixel density
         if (srcset && node.hasAttribute(settings.srcset)) {
             node.setAttribute('srcset', node.getAttribute(settings.srcset));
-            if (attrBg) {
-                var optimalSrc = pickOptimalResponsive(srcset);
-                node.style.setProperty('backgroundImage', 'url(\'' + optimalSrc + '\')');
+            console.log('Picking bg src for: ' + node.classList + ' ...', attrBg);
+
+            if (attrBg || attrBg === "") {
+                var optimalSrc = pickOptimalResponsive(node);
+                node.style.backgroundImage = 'url("' + optimalSrc + '")';
+                console.log('src for: ' + node.classList + ' => ' + optimalSrc + ' / ' + node.style.backgroundImage);
             }
         } else {
             var normal = node.getAttribute(settings.normal);
             var retina = dpr > 1 && node.getAttribute(settings.retina);
+            console.log('[no-srcset]Picking bg src for: ' + node.classList);
             if (normal) node.setAttribute('src', retina || normal);
             if (attrBg) {
-                node.style.setProperty('backgroundImage', 'url(\'' + (retina || bg || normal) + '\')');
+                // node.style.backgroundImage = `url("${retina || bg || normal}")`;
+                node.style.backgroundImage = 'url(' + (retina || attrBg || normal) + ')';
+                console.log('src for: ' + node.classList + ' =>  ' + node.style.backgroundImage);
             }
         }
 
@@ -214,7 +225,8 @@ var layzr = (function () {
     }
 
     function update() {
-        nodes = Array.prototype.slice.call(document.querySelectorAll('[' + settings.normal + ']'));
+        nodes = Array.prototype.slice.call(document.querySelectorAll('[' + settings.normal + '], [' + settings.bg + ']'));
+        console.log('update with ' + nodes.length + ' nodes');
         return this;
     }
 });
