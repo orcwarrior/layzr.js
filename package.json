@@ -70,5 +70,5 @@
     "prepublish": "npm run build",
     "server": "python -m SimpleHTTPServer 3000"
   },
-  "version": "2.2.2"
+  "version": "2.3.0"
 }
